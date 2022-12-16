@@ -1,0 +1,12 @@
+export PROXMOX_TF_USER="user" --proxmox service account username
+export PROXMOX_TF_PASS="" --proxmox service account password
+export PROXMOX_TF_IP=https://{proxmox_IP}/api2/json --can be any one of the cluster ips
+export PROXMOX_SSH_KEY='`cat ~/.ssh/id_rsa.pub`' --ssh key for cloud init
+export PROXMOX_TOKEN_SECRET="" --proxmox service account token
+export PROXMOX_TOKEN_ID="user@pve!password" -- proxmox service account user
+
+export LOCAL_SSH_FILE="/home/username/.ssh/id_rsa.pub" --path to your ssh
+export PRIVATE_SSH_KEY='`cat ~/.ssh/id_rsa`' --path to your ssh key
+export CI_PASS="" --password for the cloud init options
+
+export GIT_PASSWORD="" --gitlab access token
