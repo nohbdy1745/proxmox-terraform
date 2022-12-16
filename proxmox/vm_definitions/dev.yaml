@@ -1,0 +1,7 @@
+dev:
+  vmid: 2000
+  cores: 12
+  memory: 64000
+  ipconfig0: "ip={machine_ip_address_here}/24,gw={gateway_ip}"
+  disk:
+    size: "101580M"
