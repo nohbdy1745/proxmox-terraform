@@ -1,0 +1,53 @@
+include:
+  - template: Terraform/Base.gitlab-ci.yml
+
+variables:
+  TF_STATE_NAME: clusterstate
+  TF_CACHE_KEY: cluster
+
+stages:
+  - init
+  - validate
+  - plan
+  - deploy
+
+init:
+  before_script:
+    - cd ~/
+    - rm -r -f {gitlab_project_folder}
+    - git clone http://oauth2:${INFRA_ACCESS_TOKEN}@{gitlab_project_url}.git
+    - cd {gitlab_project_folder}
+  extends: .init
+  script:
+    - make proxmox-tf-init
+
+validate:
+  before_script:
+    - cd ~/{gitlab_project_folder}
+  extends: .validate
+  needs:
+    - job: init
+  script:
+    - make proxmox-tf-validate
+  
+
+plan:
+  before_script:
+    - cd ~/{gitlab_project_folder}
+  extends: .plan
+  needs: [validate, init]
+  script:
+    - make proxmox-tf-plan
+
+deploy:
+  before_script:
+    - cd ~/{gitlab_project_folder}
+  extends: .deploy
+  needs: [plan]
+  script:
+    - make proxmox-tf-apply-gitlab
+  when: manual
+  after_script:
+    - cd ~/
+    - rm -r {gitlab_project_folder}
+
